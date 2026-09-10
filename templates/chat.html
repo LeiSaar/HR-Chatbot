@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Multimodal HR Chatbot</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    >
+
+
+    <!-- Application CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        #messageFormeight {
+
+            height: 500px;
+
+            overflow-y: auto;
+
+            padding: 20px;
+
+        }
+
+
+        .file-preview {
+
+            display: none;
+
+            padding: 8px 12px;
+
+            background-color: #f1f3f5;
+
+            border-top: 1px solid #ddd;
+
+            font-size: 14px;
+
+        }
+
+
+        .file-preview i {
+
+            margin-right: 8px;
+
+        }
+
+
+        .remove-file {
+
+            cursor: pointer;
+
+            margin-left: 10px;
+
+            color: #dc3545;
+
+        }
+
+
+        .generated-files {
+
+            margin-top: 10px;
+
+        }
+
+
+        .generated-files a {
+
+            margin-right: 8px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .loading-message {
+
+            font-style: italic;
+
+            color: #777;
+
+        }
+
+
+        #fileInput {
+
+            display: none;
+
+        }
+
+
+        .attach-btn {
+
+            cursor: pointer;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid h-100">
+
+    <div class="row justify-content-center h-100">
+
+        <div class="col-md-8 col-xl-6 chat">
+
+            <div class="card">
+
+
+                <!-- ========================================= -->
+                <!-- HEADER -->
+                <!-- ========================================= -->
+
+                <div class="card-header msg_head">
+
+                    <div class="d-flex bd-highlight">
+
+                        <div class="img_cont">
+
+                            <img
+                                src="{{ url_for('static', filename='pics/chatbot.png') }}"
+                                class="user_img chatbot_logo"
+                                alt="HR Chatbot"
+                            >
+
+                        </div>
+
+
+                        <div class="user_info">
+
+                            <span>
+                                Multimodal HR Chatbot
+                            </span>
+
+                            <p>
+
+                                Logged in as:
+                                {{ current_user.username }}
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="ml-auto">
+
+                            <a
+                                href="{{ url_for('logout') }}"
+                                class="btn btn-sm btn-light"
+                            >
+
+                                Logout
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========================================= -->
+                <!-- CHAT MESSAGES -->
+                <!-- ========================================= -->
+
+                <div
+                    id="messageFormeight"
+                    class="card-body msg_card_body"
+                >
+
+                </div>
+
+
+                <!-- ========================================= -->
+                <!-- FILE PREVIEW -->
+                <!-- ========================================= -->
+
+                <div
+                    id="filePreview"
+                    class="file-preview"
+                >
+
+                    <i class="fas fa-file"></i>
+
+                    <span id="fileName">
+                        No file selected
+                    </span>
+
+                    <span
+                        id="removeFile"
+                        class="remove-file"
+                        title="Remove file"
+                    >
+
+                        <i class="fas fa-times"></i>
+
+                    </span>
+
+                </div>
+
+
+                <!-- ========================================= -->
+                <!-- INPUT -->
+                <!-- ========================================= -->
+
+                <div class="card-footer">
+
+
+                    <form
+                        id="messageArea"
+                        enctype="multipart/form-data"
+                    >
+
+
+                        <div class="input-group">
+
+
+                            <!-- FILE INPUT -->
+
+                            <input
+                                type="file"
+                                id="fileInput"
+                                name="file"
+                                accept="
+                                    image/png,
+                                    image/jpeg,
+                                    image/webp,
+                                    application/pdf,
+                                    text/csv,
+                                    text/plain,
+                                    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                                "
+                            >
+
+
+                            <!-- ATTACH BUTTON -->
+
+                            <div
+                                class="input-group-prepend"
+                            >
+
+                                <label
+                                    for="fileInput"
+                                    class="input-group-text attach-btn"
+                                    title="Attach file"
+                                >
+
+                                    <i
+                                        class="fas fa-paperclip"
+                                    ></i>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- TEXT INPUT -->
+
+                            <input
+                                type="text"
+                                id="text"
+                                name="msg"
+                                placeholder="Ask an HR question or upload a document..."
+                                autocomplete="off"
+                                class="form-control type_msg"
+                            >
+
+
+                            <!-- SEND BUTTON -->
+
+                            <div
+                                class="input-group-append"
+                            >
+
+                                <button
+                                    type="submit"
+                                    id="send"
+                                    class="input-group-text send_btn"
+                                >
+
+                                    <i
+                                        class="fas fa-paper-plane"
+                                    ></i>
+
+                                </button>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </form>
+
+
+                    <small class="text-muted">
+
+                        Supported:
+                        PNG, JPG, WEBP, PDF, CSV, TXT, DOCX
+
+                    </small>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function()
+    {
+
+
+        // =================================================
+        // STATE
+        // =================================================
+
+        let conversationId = null;
+
+
+        // =================================================
+        // ELEMENTS
+        // =================================================
+
+        const messageArea =
+            document.getElementById(
+                "messageArea"
+            );
+
+
+        const textInput =
+            document.getElementById(
+                "text"
+            );
+
+
+        const messageContainer =
+            document.getElementById(
+                "messageFormeight"
+            );
+
+
+        const sendButton =
+            document.getElementById(
+                "send"
+            );
+
+
+        const fileInput =
+            document.getElementById(
+                "fileInput"
+            );
+
+
+        const filePreview =
+            document.getElementById(
+                "filePreview"
+            );
+
+
+        const fileName =
+            document.getElementById(
+                "fileName"
+            );
+
+
+        const removeFile =
+            document.getElementById(
+                "removeFile"
+            );
+
+
+        // =================================================
+        // CREATE CONVERSATION
+        // =================================================
+
+        async function createConversation()
+        {
+
+            try
+            {
+
+                const response =
+                    await fetch(
+                        "{{ url_for('new_conversation') }}",
+                        {
+                            method:
+                                "POST",
+
+                            headers:
+                            {
+                                "Content-Type":
+                                    "application/json"
+                            }
+                        }
+                    );
+
+
+                if (!response.ok)
+                {
+
+                    throw new Error(
+                        "Could not create conversation."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                conversationId =
+                    data.conversation_id;
+
+
+            }
+            catch (error)
+            {
+
+                console.error(
+                    error
+                );
+
+
+                addErrorMessage(
+                    "Could not start a conversation."
+                );
+
+            }
+
+        }
+
+
+        // =================================================
+        // FILE SELECTED
+        // =================================================
+
+        fileInput.addEventListener(
+            "change",
+            function()
+            {
+
+                if (
+                    fileInput.files
+                    &&
+                    fileInput.files.length > 0
+                )
+                {
+
+                    const file =
+                        fileInput.files[0];
+
+
+                    fileName.textContent =
+                        file.name;
+
+
+                    filePreview.style.display =
+                        "block";
+
+                }
+
+            }
+        );
+
+
+        // =================================================
+        // REMOVE FILE
+        // =================================================
+
+        removeFile.addEventListener(
+            "click",
+            function()
+            {
+
+                fileInput.value =
+                    "";
+
+
+                filePreview.style.display =
+                    "none";
+
+
+                fileName.textContent =
+                    "No file selected";
+
+            }
+        );
+
+
+        // =================================================
+        // ADD USER MESSAGE
+        // =================================================
+
+        function addUserMessage(
+            message,
+            attachedFile = null
+        )
+        {
+
+            const messageDiv =
+                document.createElement(
+                    "div"
+                );
+
+
+            messageDiv.className =
+                "d-flex justify-content-end mb-4";
+
+
+            let attachmentHtml =
+                "";
+
+
+            if (attachedFile)
+            {
+
+                attachmentHtml =
+
+                    `
+                    <div
+                        class="mt-2"
+                        style="font-size: 13px;"
+                    >
+
+                        <i
+                            class="fas fa-paperclip"
+                        ></i>
+
+                        ${escapeHtml(
+                            attachedFile
+                        )}
+
+                    </div>
+                    `;
+
+            }
+
+
+            messageDiv.innerHTML =
+
+                `
+
+                <div class="msg_cotainer_send">
+
+                    ${
+                        escapeHtml(
+                            message
+                            ||
+                            "Uploaded file"
+                        )
+                    }
+
+                    ${attachmentHtml}
+
+                    <span class="msg_time_send">
+
+                        ${getCurrentTime()}
+
+                    </span>
+
+                </div>
+
+
+                <div class="img_cont_msg">
+
+                    <div
+                        class="rounded-circle user_img_msg"
+                        style="
+                            background-color: #435f7a;
+                            color: white;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        "
+                    >
+
+                        <i class="fas fa-user"></i>
+
+                    </div>
+
+                </div>
+
+                `;
+
+
+            messageContainer.appendChild(
+                messageDiv
+            );
+
+
+            scrollToBottom();
+
+        }
+
+
+        // =================================================
+        // ADD BOT MESSAGE
+        // =================================================
+
+        function addBotMessage(
+            message,
+            generatedFiles = []
+        )
+        {
+
+            const messageDiv =
+                document.createElement(
+                    "div"
+                );
+
+
+            messageDiv.className =
+                "d-flex justify-content-start mb-4";
+
+
+            let filesHtml =
+                "";
+
+
+            if (
+                generatedFiles
+                &&
+                generatedFiles.length > 0
+            )
+            {
+
+                filesHtml =
+                    `
+                    <div class="generated-files">
+
+                        <strong>
+                            Generated files:
+                        </strong>
+
+                        <br>
+                    `;
+
+
+                generatedFiles.forEach(
+                    function(file)
+                    {
+
+                        let icon =
+                            "fa-file";
+
+
+                        if (
+                            file.type
+                            ===
+                            "pdf"
+                        )
+                        {
+
+                            icon =
+                                "fa-file-pdf";
+
+                        }
+
+
+                        if (
+                            file.type
+                            ===
+                            "csv"
+                        )
+                        {
+
+                            icon =
+                                "fa-file-csv";
+
+                        }
+
+
+                        filesHtml +=
+
+                            `
+                            <a
+                                href="${file.url}"
+                                class="btn btn-sm btn-outline-primary"
+                            >
+
+                                <i
+                                    class="fas ${icon}"
+                                ></i>
+
+                                Download
+                                ${file.type.toUpperCase()}
+
+                            </a>
+                            `;
+
+                    }
+                );
+
+
+                filesHtml +=
+                    `</div>`;
+
+            }
+
+
+            messageDiv.innerHTML =
+
+                `
+
+                <div class="img_cont_msg">
+
+                    <img
+                        src="{{ url_for('static', filename='pics/chatbot.png') }}"
+                        class="rounded-circle user_img_msg"
+                        alt="Chatbot"
+                    >
+
+                </div>
+
+
+                <div class="msg_cotainer">
+
+                    ${escapeHtml(message)}
+
+                    ${filesHtml}
+
+                    <span class="msg_time">
+
+                        ${getCurrentTime()}
+
+                    </span>
+
+                </div>
+
+                `;
+
+
+            messageContainer.appendChild(
+                messageDiv
+            );
+
+
+            scrollToBottom();
+
+        }
+
+
+        // =================================================
+        // LOADING MESSAGE
+        // =================================================
+
+        function addLoadingMessage()
+        {
+
+            const messageDiv =
+                document.createElement(
+                    "div"
+                );
+
+
+            messageDiv.id =
+                "loadingMessage";
+
+
+            messageDiv.className =
+                "d-flex justify-content-start mb-4";
+
+
+            messageDiv.innerHTML =
+
+                `
+
+                <div class="msg_cotainer loading-message">
+
+                    <i class="fas fa-spinner fa-spin"></i>
+
+                    Processing your request...
+
+                </div>
+
+                `;
+
+
+            messageContainer.appendChild(
+                messageDiv
+            );
+
+
+            scrollToBottom();
+
+        }
+
+
+        // =================================================
+        // REMOVE LOADING
+        // =================================================
+
+        function removeLoadingMessage()
+        {
+
+            const loading =
+                document.getElementById(
+                    "loadingMessage"
+                );
+
+
+            if (loading)
+            {
+
+                loading.remove();
+
+            }
+
+        }
+
+
+        // =================================================
+        // ERROR MESSAGE
+        // =================================================
+
+        function addErrorMessage(
+            message
+        )
+        {
+
+            const messageDiv =
+                document.createElement(
+                    "div"
+                );
+
+
+            messageDiv.className =
+                "d-flex justify-content-start mb-4";
+
+
+            messageDiv.innerHTML =
+
+                `
+
+                <div
+                    class="msg_cotainer"
+                    style="
+                        background-color: #dc3545;
+                        color: white;
+                    "
+                >
+
+                    ${escapeHtml(message)}
+
+                    <span class="msg_time">
+
+                        ${getCurrentTime()}
+
+                    </span>
+
+                </div>
+
+                `;
+
+
+            messageContainer.appendChild(
+                messageDiv
+            );
+
+
+            scrollToBottom();
+
+        }
+
+
+        // =================================================
+        // ESCAPE HTML
+        // =================================================
+
+        function escapeHtml(
+            text
+        )
+        {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                text
+                ||
+                "";
+
+
+            return div.innerHTML;
+
+        }
+
+
+        // =================================================
+        // TIME
+        // =================================================
+
+        function getCurrentTime()
+        {
+
+            const now =
+                new Date();
+
+
+            return now.toLocaleTimeString(
+                [],
+                {
+                    hour:
+                        "2-digit",
+
+                    minute:
+                        "2-digit"
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // SCROLL
+        // =================================================
+
+        function scrollToBottom()
+        {
+
+            messageContainer.scrollTop =
+                messageContainer.scrollHeight;
+
+        }
+
+
+        // =================================================
+        // SUBMIT
+        // =================================================
+
+        messageArea.addEventListener(
+            "submit",
+            async function(event)
+            {
+
+                event.preventDefault();
+
+
+                const rawText =
+                    textInput.value.trim();
+
+
+                const selectedFile =
+                    fileInput.files
+                    &&
+                    fileInput.files.length > 0
+                        ?
+                    fileInput.files[0]
+                        :
+                    null;
+
+
+                // -----------------------------------------
+                // VALIDATION
+                // -----------------------------------------
+
+                if (
+                    !rawText
+                    &&
+                    !selectedFile
+                )
+                {
+
+                    return;
+
+                }
+
+
+                if (!conversationId)
+                {
+
+                    addErrorMessage(
+                        "Conversation is not ready."
+                    );
+
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // DISPLAY USER MESSAGE
+                // -----------------------------------------
+
+                addUserMessage(
+                    rawText,
+                    selectedFile
+                        ?
+                    selectedFile.name
+                        :
+                    null
+                );
+
+
+                // -----------------------------------------
+                // FORM DATA
+                // -----------------------------------------
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "msg",
+                    rawText
+                );
+
+
+                formData.append(
+                    "conversation_id",
+                    conversationId
+                );
+
+
+                if (selectedFile)
+                {
+
+                    formData.append(
+                        "file",
+                        selectedFile
+                    );
+
+                }
+
+
+                // -----------------------------------------
+                // RESET UI
+                // -----------------------------------------
+
+                textInput.value =
+                    "";
+
+
+                fileInput.value =
+                    "";
+
+
+                filePreview.style.display =
+                    "none";
+
+
+                sendButton.disabled =
+                    true;
+
+
+                textInput.disabled =
+                    true;
+
+
+                addLoadingMessage();
+
+
+                // -----------------------------------------
+                // SEND
+                // -----------------------------------------
+
+                try
+                {
+
+                    const response =
+                        await fetch(
+                            "{{ url_for('chat') }}",
+                            {
+                                method:
+                                    "POST",
+
+                                body:
+                                    formData
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    removeLoadingMessage();
+
+
+                    if (!response.ok)
+                    {
+
+                        addErrorMessage(
+                            data.error
+                            ||
+                            "An error occurred."
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    // -------------------------------------
+                    // DISPLAY ANSWER
+                    // -------------------------------------
+
+                    addBotMessage(
+                        data.answer,
+                        data.generated_files
+                            ||
+                        []
+                    );
+
+
+                    console.log(
+                        "Router:",
+                        data.route
+                    );
+
+
+                    console.log(
+                        "Question:",
+                        data.question
+                    );
+
+
+                    console.log(
+                        "File:",
+                        data.file
+                    );
+
+                }
+                catch (error)
+                {
+
+                    console.error(
+                        error
+                    );
+
+
+                    removeLoadingMessage();
+
+
+                    addErrorMessage(
+                        "Could not connect to "
+                        +
+                        "the chatbot server."
+                    );
+
+                }
+                finally
+                {
+
+                    sendButton.disabled =
+                        false;
+
+
+                    textInput.disabled =
+                        false;
+
+
+                    textInput.focus();
+
+                }
+
+            }
+        );
+
+
+        // =================================================
+        // INITIALIZE
+        // =================================================
+
+        await createConversation();
+
+
+        textInput.focus();
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

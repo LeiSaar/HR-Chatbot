@@ -1,0 +1,7 @@
+invoice_number,invoice_date,due_date,vendor_name,vendor_address,customer_name,customer_address,currency,currency_symbol,subtotal,tax,total
+US-001,11/02/2019,26/02/2019,East Repair Inc.,"1912 Harvest Lane, New York, NY 12210",John Smith,"2 Court Square, 3787 Pineview Drive, New York, NY 12210",USD,$,$145.00,$9.06,$154.06
+
+description,quantity,unit_price,amount
+Front and rear brake cables,1,100.00,100.00
+New set of pedal arms,2,30.00,60.00
+Labor 3hrs,3,5.00,15.00

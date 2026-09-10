@@ -1,0 +1,51 @@
+employee_id,name,department,position,annual_leave,used_leave,remaining_leave,performance
+EMP-2026-001,Danielle Martinez,HR,HR Coordinator,28,2,26,C
+EMP-2026-002,Rachel Lopez,Legal,Legal Assistant,32,24,8,B+
+EMP-2026-003,Amanda Adams,Finance,Accountant,30,6,24,D+
+EMP-2026-004,Sarah King,Sales,Sales Manager,30,2,28,C+
+EMP-2026-005,Larry Roberts,Engineering,QA Engineer,25,10,15,A
+EMP-2026-006,William Nguyen,HR,HR Specialist,25,6,19,D
+EMP-2026-007,Gary Mitchell,Product,UX Designer,30,1,29,C
+EMP-2026-008,Jessica Taylor,Engineering,DevOps Specialist,25,8,17,D+
+EMP-2026-009,Eric White,Finance,Finance Controller,28,8,20,A
+EMP-2026-010,Virginia Hall,Legal,Legal Assistant,30,20,10,B
+EMP-2026-011,Amber Anderson,Operations,Operations Coordinator,25,7,18,C+
+EMP-2026-012,Emily Harris,Product,Product Owner,25,19,6,B
+EMP-2026-013,Edward Hall,Operations,Operations Manager,32,5,27,B+
+EMP-2026-014,Nicole Green,Marketing,SEO Analyst,32,27,5,B+
+EMP-2026-015,Gary Martin,HR,HR Coordinator,25,5,20,C+
+EMP-2026-016,John Lewis,Product,Product Owner,28,13,15,A+
+EMP-2026-017,Timothy Jackson,Finance,Accountant,30,22,8,D+
+EMP-2026-018,Heather Hall,HR,HR Specialist,30,5,25,C+
+EMP-2026-019,Stephen Baker,Sales,Sales Manager,30,20,10,B+
+EMP-2026-020,Katherine Scott,HR,HR Specialist,32,6,26,A
+EMP-2026-021,Ashley Green,Engineering,Software Engineer,30,1,29,C
+EMP-2026-022,Jessica Thompson,Legal,Corporate Counsel,25,6,19,B+
+EMP-2026-023,Andrew Lee,HR,HR Manager,25,24,1,B+
+EMP-2026-024,James Smith,Marketing,Marketing Manager,30,18,12,C
+EMP-2026-025,Christopher Hernandez,Legal,Corporate Counsel,32,10,22,B+
+EMP-2026-026,Nicholas Walker,Finance,Accountant,30,0,30,B+
+EMP-2026-027,Kimberly White,HR,HR Manager,28,26,2,C
+EMP-2026-028,Andrew Brown,Engineering,Software Engineer,32,27,5,D+
+EMP-2026-029,Ashley Hernandez,Marketing,Marketing Specialist,30,16,14,B+
+EMP-2026-030,Lisa Thompson,Marketing,Marketing Manager,28,19,9,C
+EMP-2026-031,Joseph Thompson,Operations,Operations Specialist,25,1,24,D+
+EMP-2026-032,Gary Flores,HR,HR Coordinator,32,11,21,B+
+EMP-2026-033,Melissa Ramirez,Sales,Account Executive,30,16,14,D+
+EMP-2026-034,Jason Smith,Engineering,Software Engineer,28,10,18,A+
+EMP-2026-035,Stephanie Young,Operations,Operations Coordinator,30,13,17,C+
+EMP-2026-036,Catherine Allen,Marketing,SEO Analyst,30,20,10,B
+EMP-2026-037,Amanda Lee,Finance,Finance Controller,32,9,23,A
+EMP-2026-038,Timothy Wright,Finance,Accountant,25,10,15,D
+EMP-2026-039,David Miller,Product,Product Owner,25,20,5,B
+EMP-2026-040,Gary Martinez,Engineering,DevOps Specialist,25,6,19,D
+EMP-2026-041,Matthew Thompson,HR,HR Manager,32,5,27,B
+EMP-2026-042,Kevin King,Sales,Sales Associate,30,21,9,D
+EMP-2026-043,Kevin Young,HR,HR Specialist,30,18,12,B
+EMP-2026-044,Matthew Campbell,HR,HR Coordinator,32,22,10,A+
+EMP-2026-045,Nicholas Garcia,Operations,Operations Manager,30,27,3,D+
+EMP-2026-046,Rebecca Moore,Legal,Legal Assistant,32,21,11,B
+EMP-2026-047,Jason King,Finance,Finance Controller,25,7,18,A+
+EMP-2026-048,Ronald Allen,HR,HR Specialist,25,6,19,D+
+EMP-2026-049,Larry Lee,Finance,Financial Analyst,28,10,18,B+
+EMP-2026-050,Eric Davis,HR,HR Coordinator,32,13,19,B+

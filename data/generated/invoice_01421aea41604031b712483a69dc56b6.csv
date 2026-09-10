@@ -1,0 +1,8 @@
+invoice_number,invoice_date,due_date,vendor_name,vendor_address,customer_name,customer_address,currency,currency_symbol,subtotal,tax,total
+#CON-2028-001,"September 21, 2028",,X Construction,"873 Liberty Street, Las Vegas",ABC Company,123 Main Street Cityville,USD,$,"$26,000","$2,600","$28,600"
+
+description,quantity,unit_price,amount
+Foundation Work,10 Days,100,"1,000"
+Steel Structure Installation,5 Weeks,2000,"10,000"
+Concrete Material,200 Cubics,50,"10,000"
+Structural Steel Material,10 Tons,500,"5,000"
